@@ -5,7 +5,7 @@ import java.util.Calendar;
 
 @Entity
 @Table(name = "operation")
-public class Operation {
+public class Operation implements Comparable<Operation>{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -160,5 +160,10 @@ public class Operation {
 
     public void incrementPeriodCount() {
         this.periodCount = this.periodCount + 1;
+    }
+
+    @Override
+    public int compareTo(Operation operation) {
+        return -getCreationDate().compareTo(operation.getCreationDate());
     }
 }

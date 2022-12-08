@@ -69,7 +69,7 @@ public class UserPageService {
             operation = new Operation(userInfoRepository.getUserInfoByUsername(username).getAccount(), creationDate, label, category, description, amount);
         }
         else {
-            nextUpdateDate.add(Calendar.DATE, -period);
+            nextUpdateDate.add(Calendar.DATE, period);
             operation = new Operation(userInfoRepository.getUserInfoByUsername(username).getAccount(), creationDate, nextUpdateDate, label, category, description, amount, period);
         }
 
@@ -155,5 +155,13 @@ public class UserPageService {
             return List.of(List.of("No operations", 1));
         }
         return listOfLists;
+    }
+
+    public List<Operation> sortOperations(Set<Operation> operations) {
+        List<Operation> operationsList = new ArrayList<>(operations);
+
+        Collections.sort(operationsList);
+
+        return operationsList;
     }
 }

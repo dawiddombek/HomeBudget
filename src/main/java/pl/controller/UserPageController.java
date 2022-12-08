@@ -40,6 +40,7 @@ public class UserPageController {
     public String getLoginUser(Model model) {
         model.addAttribute("userInfo", userInfoRepository.getUserInfoByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
         model.addAttribute("chartData", userPageService.getIncomeData(userInfoRepository.getUserInfoByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).getAccount().getOperations()));
+        model.addAttribute("operationsList", userPageService.sortOperations(userInfoRepository.getUserInfoByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).getAccount().getOperations()));
         return "userPage";
     }
 
@@ -47,6 +48,7 @@ public class UserPageController {
     public String getUserPage(Model model) {
         model.addAttribute("userInfo", userInfoRepository.getUserInfoByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
         model.addAttribute("chartData", userPageService.getIncomeData(userInfoRepository.getUserInfoByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).getAccount().getOperations()));
+        model.addAttribute("operationsList", userPageService.sortOperations(userInfoRepository.getUserInfoByUsername(SecurityContextHolder.getContext().getAuthentication().getName()).getAccount().getOperations()));
         return "userPage";
     }
 

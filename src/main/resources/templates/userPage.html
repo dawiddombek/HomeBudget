@@ -74,7 +74,7 @@
     <br>
     <div class="w3-container">
         <ul class="w3-ul w3-card-4 w3-white">
-            <li class="w3-bar" th:each="operation : ${userInfo.getAccount().getOperations()}">
+            <li class="w3-bar" th:each="operation : ${operationsList}">
                 <a th:href="@{/deleteOperation(operationId=${operation.getId()})}" class="w3-bar-item w3-button w3-white w3-xlarge w3-hover-red w3-right">×</a>
                 <div class="w3-bar-item">
                     <h3 th:text="${operation.getLabel()}">Label</h3>
