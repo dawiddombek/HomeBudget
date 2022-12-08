@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add new Operation</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <link href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css" rel="stylesheet" crossorigin="anonymous"/>
+</head>
+<style>
+    body {
+        background: #afeeee;
+    }
+    .form-signin {
+        border-radius: 10px;
+        background-color: #fff;
+        padding: 30px;
+    }
+</style>
+<body>
+<div class="container" align="center">
+    <form class="form-signin" method="post" action="/addCyclicOperation">
+        <h2 class="form-signin-heading">Add new regular operation</h2>
+        <br>
+        <div align="left">Operation's label</div>
+        <p>
+            <input type="text" id="label" name="label" class="form-control" placeholder="Label" required autofocus>
+        </p>
+        <div align="left">Operation's category</div>
+        <p>
+            <input type="text" id="category" name="category" class="form-control" placeholder="Category">
+        </p>
+        <div align="left">Operation's description</div>
+        <p>
+            <input type="text" id="description" name="description" class="form-control" placeholder="Description">
+        </p>
+        <div align="left">Operation's amount</div>
+        <p>
+            <input type="number" id="amount" name="amount" class="form-control" placeholder="Amount"required>
+        </p>
+        <div align="left">Time to next payment(in days)</div>
+        <p>
+            <input type="number" id="period" name="period" class="form-control" placeholder="Days"required>
+        </p>
+        <button class="btn btn-outline-primary btn-lg btn-block" type="submit">Add operation</button>
+    </form>
+</div>
+</body>
+</html>
