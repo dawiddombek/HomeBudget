@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Add new Operation</title>
+    <title>Dodaj nową operację</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
     <link href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css" rel="stylesheet" crossorigin="anonymous"/>
 </head>
@@ -19,25 +19,25 @@
 <body>
     <div class="container" align="center">
         <form class="form-signin" method="post" action="/addRegularOperation">
-            <h2 class="form-signin-heading">Add new regular operation</h2>
+            <h2 class="form-signin-heading">Dodaj nową zwykłą operację</h2>
             <br>
-            <div align="left">Operation's label</div>
+            <div align="left">Nazwa operacji</div>
             <p>
-                <input type="text" id="label" name="label" class="form-control" placeholder="Label" required autofocus>
+                <input type="text" id="label" name="label" class="form-control" placeholder="Nazwa" required autofocus>
             </p>
-            <div align="left">Operation's category</div>
+            <div align="left">Kategoria operacji</div>
             <p>
-                <input type="text" id="category" name="category" class="form-control" placeholder="Category">
+                <input type="text" id="category" name="category" class="form-control" placeholder="Kategoria">
             </p>
-            <div align="left">Operation's description</div>
+            <div align="left">Opis operacji</div>
             <p>
-                <input type="text" id="description" name="description" class="form-control" placeholder="Description">
+                <input type="text" id="description" name="description" class="form-control" placeholder="Opis">
             </p>
-            <div align="left">Operation's amount</div>
+            <div align="left">Kwota operacji</div>
             <p>
-                <input type="number" id="amount" name="amount" class="form-control" placeholder="Amount"required>
+                <input type="number" step="0.01" id="amount" name="amount" class="form-control" placeholder="Kwota"required>
             </p>
-            <button class="btn btn-outline-primary btn-lg btn-block" type="submit">Add operation</button>
+            <button class="btn btn-outline-primary btn-lg btn-block" type="submit">Dodaj operację</button>
         </form>
     </div>
 </body>

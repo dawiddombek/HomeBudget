@@ -1,4 +1,6 @@
-package pl.model;
+package aplication.model.classes;
+
+import aplication.model.classes.Account;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -13,7 +15,7 @@ public class Home {
     @Column(name = "id")
     private Long id;
 
-    @OneToMany(mappedBy = "home")
+    @OneToMany(cascade = { CascadeType.REMOVE, CascadeType.PERSIST }, mappedBy = "home")
     private Set<Account> accounts = new HashSet<>();
 
     private String name;

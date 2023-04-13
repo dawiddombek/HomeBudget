@@ -1,4 +1,4 @@
-package pl.model;
+package aplication.model.classes;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -13,19 +13,20 @@ public class Account {
     @Column(name = "id")
     private Long id;
 
-    @OneToOne
-    @JoinTable(name = "account_userInfo", joinColumns = @JoinColumn(name = "account_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "userInfo_id", referencedColumnName = "id"))
+    @OneToOne(cascade = { CascadeType.REMOVE, CascadeType.PERSIST })
+    @JoinColumn(name = "userInfo_id", referencedColumnName = "id")
     private UserInfo userInfo;
 
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name = "home_id")
     private Home home;
 
-    @OneToMany(mappedBy = "account")
+    @OneToMany(cascade = { CascadeType.REMOVE, CascadeType.PERSIST }, mappedBy = "account")
     private Set<Operation> operations = new HashSet<>();
 
     private double currentAmount;
+
+    private String userView = "";
 
     public Account() {
     }
@@ -76,6 +77,14 @@ public class Account {
 
     public void setOperations(Set<Operation> operations) {
         this.operations = operations;
+    }
+
+    public String getUserView() {
+        return userView;
+    }
+
+    public void setUserView(String userView) {
+        this.userView = userView;
     }
 
     public void calculateCurrentAmount(double change) {

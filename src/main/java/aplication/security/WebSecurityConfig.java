@@ -1,4 +1,4 @@
-package pl.security;
+package aplication.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -33,12 +33,12 @@ public class WebSecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
+        http.httpBasic()
+                .and()
                 .authorizeHttpRequests()
                 .antMatchers("/h2-console/**").permitAll()
                 .antMatchers("/register/**").permitAll()
                 .antMatchers("/registerNewHome/**").permitAll()
-                //.anyRequest().permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()

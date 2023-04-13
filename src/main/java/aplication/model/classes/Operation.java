@@ -1,4 +1,4 @@
-package pl.model;
+package aplication.model.classes;
 
 import javax.persistence.*;
 import java.util.Calendar;
@@ -16,9 +16,10 @@ public class Operation implements Comparable<Operation>{
     @JoinColumn(name = "account_id")
     private Account account;
 
-    @OneToOne
-    @JoinTable(name = "operation1_operation2", joinColumns = @JoinColumn(name = "operation1_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "operation2_id", referencedColumnName = "id"))
+    @OneToOne(cascade = { CascadeType.REMOVE, CascadeType.PERSIST })
+//    @JoinTable(name = "operation1_operation2", joinColumns = @JoinColumn(name = "operation1_id", referencedColumnName = "id"),
+//            inverseJoinColumns = @JoinColumn(name = "operation2_id", referencedColumnName = "id"))
+    @JoinColumn(name = "operation_id", referencedColumnName = "id")
     private Operation operation;
 
     private Calendar creationDate;

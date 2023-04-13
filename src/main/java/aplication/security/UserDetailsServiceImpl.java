@@ -1,7 +1,7 @@
-package pl.security;
+package aplication.security;
 
-import pl.model.UserInfo;
-import pl.model.UserInfoRepository;
+import aplication.model.classes.UserInfo;
+import aplication.model.repositories.UserInfoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

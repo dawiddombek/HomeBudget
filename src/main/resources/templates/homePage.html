@@ -1,12 +1,62 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
-    <title>Home Page</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <link href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css" rel="stylesheet" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <title>Strona domu</title>
+    <style>
+        body {
+            background: #afeeee;
+        }
+    </style>
 </head>
 <body>
 
-<h2>Welcome to your home page</h2>
+<div class="w3-bar w3-blue">
+    <form method="get" action="/backToUserPage">
+        <button class="w3-button w3-blue w3-hover-cyan w3-left" type="submit">Powrót do strony konta</button>
+    </form>
+    <form method="get" action="/deleteYourAccount">
+        <button class="w3-button w3-hover-cyan w3-blue w3-left">Usuń swoje konto</button>
+    </form>
+    <div sec:authorize="hasAnyAuthority('Administrator')">
+    <form method="get" action="/addNewUserPage">
+        <button class="w3-button w3-hover-cyan w3-blue w3-left">Dodaj nowego użytkownika</button>
+    </form>
+    </div>
+    <form method="get" action="/logout">
+        <button class="w3-button w3-blue w3-hover-red w3-right" type="submit">Wyloguj</button>
+    </form>
+</div>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<div class="w3-container">
+    <ul class="w3-ul w3-card-4 w3-white">
+        <li class="w3-bar" th:each="account : ${home.getAccounts()}">
+            <div sec:authorize="hasAnyAuthority('Administrator')">
+                <a th:href="@{/deleteAccount(accountId=${account.getId()})}" class="w3-bar-item w3-button w3-white w3-xlarge w3-hover-red w3-right">×</a>
+            </div>
+            <div class="w3-bar-item">
+                <h3 th:text="${account.getUserInfo().getUsername()}">Username</h3>
+                <p5>Role: </p5>
+                <p5 th:each="role : ${account.getUserInfo().getRoles()}">
+                <p5 th:text="${role.getName()}">Role</p5>
+                </p5>
+            </div>
+            <div sec:authorize="hasAnyAuthority('Administrator')">
+                <a th:href="@{/viewUserPage(accountId=${account.getId()})}" class="w3-bar-item w3-button w3-white w3-xlarge w3-hover-red w3-right">Przeglądaj</a>
+            </div>
+
+        </li>
+    </ul>
+</div>
 
 </body>
 </html>

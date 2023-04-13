@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Please sign in</title>
+    <meta charset="UTF-8">
+    <title>Logowanie</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
     <link href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css" rel="stylesheet" crossorigin="anonymous"/>
     <style>
@@ -18,22 +19,22 @@ body {
 <body>
 <div class="container" align="center">
     <form class="form-signin" method="post" action="/login">
-        <h2 class="form-signin-heading">Please sign in</h2>
+        <h2 class="form-signin-heading">Proszę się zalogować</h2>
         <p>
-            <label for="username" class="sr-only">Username</label>
-            <input type="text" id="username" name="username" class="form-control" placeholder="Username" required autofocus>
+            <label for="username" class="sr-only">Login</label>
+            <input type="text" id="username" name="username" class="form-control" placeholder="Login" required autofocus>
         </p>
         <p>
-            <label for="password" class="sr-only">Password</label>
-            <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
+            <label for="password" class="sr-only">Hasło</label>
+            <input type="password" id="password" name="password" class="form-control" placeholder="Hasło" required>
         </p>
-        <button class="btn btn-outline-primary btn-lg btn-block" type="submit">Sign in</button>
+        <button class="btn btn-outline-primary btn-lg btn-block" type="submit">Logowanie</button>
     </form>
     <br>
     <form class="form-signin" method="get" action="/register">
-        <p6>Click here, if you want to create new home</p6>
+        <p6>Kliknij tutaj, aby utworzyć nowy dom</p6>
         <p></p>
-        <button class="btn btn-outline-danger btn-lg btn-block" type="submit">Sign up</button>
+        <button class="btn btn-outline-danger btn-lg btn-block" type="submit">Rejestracja</button>
     </form>
 </div>
 </body>

@@ -1,4 +1,7 @@
-package pl.model;
+package aplication.model.classes;
+
+import aplication.model.classes.Account;
+import aplication.model.classes.Role;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -23,7 +26,7 @@ public class UserInfo {
 
     private boolean enabled;
 
-    @OneToOne(mappedBy = "userInfo")
+    @OneToOne(mappedBy = "userInfo", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Account account;
 
     public UserInfo() {
@@ -39,6 +42,13 @@ public class UserInfo {
         this.username = username;
         this.password = password;
         this.id = id;
+    }
+
+    public UserInfo(String username, String password, String role) {
+        this.username = username;
+        this.password = password;
+        Role newRole = new Role(role);
+        this.roles.add(newRole);
     }
 
     public Long getId() {

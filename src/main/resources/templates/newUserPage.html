@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Dodaj nowego użytkownika</title>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+  <link href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css" rel="stylesheet" crossorigin="anonymous"/>
+</head>
+<style>
+  body {
+    background: #afeeee;
+  }
+  .form-signin {
+    border-radius: 10px;
+    background-color: #fff;
+    padding: 30px;
+  }
+
+  .form-check {
+    text-align: start;
+    padding-left: 20px;
+  }
+</style>
+<body>
+  <div class="container" align="center">
+    <form class="form-signin" method="post" action="/addNewUser">
+      <h2 class="form-signin-heading">Dodaj nowego użytkownika do domu</h2>
+      <br>
+      <div align="left">Nazwa konta</div>
+      <p>
+        <input type="text" id="label" name="username" class="form-control" placeholder="Nazwa" required autofocus>
+      </p>
+      <div align="left">Hasło</div>
+      <p>
+        <input type="text" id="category" name="password" class="form-control" placeholder="Hasło">
+      </p>
+
+      <div style="text-align: start">Rola</div>
+      <div class="form-check">
+        <input type="radio" class="form-check-input" id="user" name="role" value="Użytkownik" checked>Użytkownik
+        <label class="form-check-label" for="user"></label>
+      </div>
+      <div class="form-check">
+        <input type="radio" class="form-check-input" id="admin" name="role" value="Administrator">Administrator
+        <label class="form-check-label" for="admin"></label>
+      </div><br>
+      <button class="btn btn-outline-primary btn-lg btn-block" type="submit">Dodaj użytkownika</button>
+    </form>
+  </div>
+</body>
+</html>

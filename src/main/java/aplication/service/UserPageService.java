@@ -1,8 +1,13 @@
-package pl.service;
+package aplication.service;
 
+import aplication.model.classes.Account;
+import aplication.model.classes.Operation;
+import aplication.model.classes.UserInfo;
+import aplication.model.repositories.AccountRepository;
+import aplication.model.repositories.OperationRepository;
+import aplication.model.repositories.UserInfoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pl.model.*;
 
 import java.util.*;
 
@@ -22,6 +27,12 @@ public class UserPageService {
         this.accountRepository = accountRepository;
     }
 
+    public void updateUserView(String username) {
+        UserInfo userInfo = userInfoRepository.getUserInfoByUsername(username);
+        userInfo.getAccount().setUserView(userInfo.getUsername());
+        userInfoRepository.save(userInfo);
+    }
+
     public void saveNewRegularOperation(String username, String label, String category, String description, double amount) {
         Calendar creationDate = new GregorianCalendar();
         Operation operation = new Operation(userInfoRepository.getUserInfoByUsername(username).getAccount(), creationDate, label, category, description, amount);
@@ -36,8 +47,8 @@ public class UserPageService {
 
     public void saveNewOperationBetweenAccounts(String username, String label, String category, String description, double amount, String relatedUsername) {
         Calendar creationDate = new GregorianCalendar();
-        Operation operation = new Operation(userInfoRepository.getUserInfoByUsername(username).getAccount(), creationDate, label, category, description, amount);
-        Operation relatedOperation = new Operation(userInfoRepository.getUserInfoByUsername(relatedUsername).getAccount(), creationDate, label, category, description, -amount);
+        Operation operation = new Operation(userInfoRepository.getUserInfoByUsername(username).getAccount(), creationDate, label, category, description, -amount);
+        Operation relatedOperation = new Operation(userInfoRepository.getUserInfoByUsername(relatedUsername).getAccount(), creationDate, label, category, description, amount);
 
         operationRepository.save(operation);
         operationRepository.save(relatedOperation);
@@ -50,8 +61,8 @@ public class UserPageService {
 
         Account account = operation.getAccount();
         Account relatedAccount = relatedOperation.getAccount();
-        account.calculateCurrentAmount(amount);
-        relatedAccount.calculateCurrentAmount(-amount);
+        account.calculateCurrentAmount(-amount);
+        relatedAccount.calculateCurrentAmount(amount);
 
         accountRepository.save(account);
         accountRepository.save(relatedAccount);
@@ -108,53 +119,50 @@ public class UserPageService {
         }
     }
 
-    public List<List<Object>> getIncomeData(Set<Operation> operations) {
+    public List<List<Object>> getChartData(Set<Operation> operations, String sign) {
         List<List<Object>> listOfLists = new ArrayList<>();
-        List<String> stringList = new LinkedList<>();
+        List<String> categoryList = new LinkedList<>();
         double amount = 0;
-        boolean firstIteration = true;
-        boolean changeListSize = false;
-        boolean passThisIteration = false;
-        String category = "";
 
-        for(Operation operation : operations) {
-            if(firstIteration) {
-                category = operation.getCategory();
-                stringList.add(category);
-                firstIteration = false;
-            }
-            else {
-                for (String s : stringList) {
-                    if (s.equals(operation.getCategory())) {
-                        passThisIteration = true;
-                    }
-                    else {
-                        changeListSize = true;
-                    }
-                }
-                if(changeListSize) {
-                    category = operation.getCategory();
-                    stringList.add(category);
+        if(sign.equals("Income")) {
+            for(Operation addToCategoryList : operations) {
+                if(addToCategoryList.getAmount() >= 0 && !categoryList.contains(addToCategoryList.getCategory())) {
+                    categoryList.add(addToCategoryList.getCategory());
                 }
             }
-            if(!passThisIteration) {
-                for(Operation currentOperation : operations) {
-                    if(currentOperation.getCategory().equals(category)) {
-                        amount = amount + currentOperation.getAmount()*(currentOperation.getPeriodCount() + 1);
+
+            for(String category : categoryList) {
+                for(Operation operation : operations) {
+                    if(operation.getCategory().equals(category) && operation.getAmount() >= 0) {
+                        amount = amount + operation.getAmount()*(operation.getPeriodCount() + 1);
                     }
                 }
                 listOfLists.add(List.of(category, amount));
                 amount = 0;
             }
-            else {
-                passThisIteration = false;
+        }
+        if(sign.equals("Expense")) {
+            for(Operation addToCategoryList : operations) {
+                if(addToCategoryList.getAmount() < 0 && !categoryList.contains(addToCategoryList.getCategory())) {
+                    categoryList.add(addToCategoryList.getCategory());
+                }
+            }
+
+            for(String category : categoryList) {
+                for(Operation operation : operations) {
+                    if(operation.getCategory().equals(category) && operation.getAmount() < 0) {
+                        amount = amount + -operation.getAmount()*(operation.getPeriodCount() + 1);
+                    }
+                }
+                listOfLists.add(List.of(category, amount));
+                amount = 0;
             }
         }
-
-        if(stringList.isEmpty()) {
-            return List.of(List.of("No operations", 1));
+        if(categoryList.isEmpty()) {
+            return List.of(List.of("Brak operacji", 1));
         }
         return listOfLists;
+
     }
 
     public List<Operation> sortOperations(Set<Operation> operations) {

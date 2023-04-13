@@ -6,7 +6,7 @@
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
     <link href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css" rel="stylesheet" crossorigin="anonymous"/>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <title>User Page</title>
+    <title>Strona użytkownika</title>
     <style>
         body {
             background: #afeeee;
@@ -15,22 +15,27 @@
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
     <script type="text/javascript" th:inline="javascript">
-        // Load google charts
         google.charts.load('current', {'packages':['corechart']});
-        google.charts.setOnLoadCallback(drawChart);
+        google.charts.setOnLoadCallback(drawIncomeChart);
+        google.charts.setOnLoadCallback(drawExpenseChart);
 
-        // Draw the chart and set the chart values
-        function drawChart() {
+        function drawIncomeChart() {
             var data = new google.visualization.DataTable();
-            data.addColumn('string', 'Topping');
-            data.addColumn('number', 'Slices');
-            data.addRows([[${chartData}]]);
+            data.addColumn('string', 'Kategoria');
+            data.addColumn('number', 'Suma');
+            data.addRows([[${chartIncomeData}]]);
+            var options = {'title':'Wykres dochodów', 'width':500, 'height':300};
+            var chart = new google.visualization.PieChart(document.getElementById('piechartIncome'));
+            chart.draw(data, options);
+        }
 
-            // Optional; add a title and set the width and height of the chart
-            var options = {'title':'My Average Day', 'width':500, 'height':500};
-
-            // Display the chart inside the <div> element with id="piechart"
-            var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+        function drawExpenseChart() {
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Kategoria');
+            data.addColumn('number', 'Suma');
+            data.addRows([[${chartExpenseData}]]);
+            var options = {'title':'Wykres wydatków', 'width':500, 'height':300};
+            var chart = new google.visualization.PieChart(document.getElementById('piechartExpense'));
             chart.draw(data, options);
         }
     </script>
@@ -38,52 +43,58 @@
 <body>
     <div class="w3-bar w3-blue">
         <form method="get" action="/homePage">
-            <button class="w3-button w3-blue w3-hover-cyan w3-left" type="submit">Home</button>
+            <button class="w3-button w3-blue w3-hover-cyan w3-left" type="submit">Dom</button>
         </form>
 
         <div class="w3-dropdown-hover">
-            <button class="w3-button w3-hover-cyan w3-blue">Add new operation</button>
+            <button class="w3-button w3-hover-cyan w3-blue">Dodaj nową operację</button>
             <div class="w3-dropdown-content w3-bar-block w3-border">
-                <a href="/regularOperation" class="w3-bar-item w3-button">Add regular operation</a>
-                <a href="/operationBetweenAccounts" class="w3-bar-item w3-button">Add operation with another home's account</a>
-                <a href="/cyclicOperation" class="w3-bar-item w3-button">Add cyclic operation</a>
+                <a href="/regularOperation" class="w3-bar-item w3-button">Dodaj zwykłą operację</a>
+                <a href="/operationBetweenAccounts" class="w3-bar-item w3-button">Dodaj operację między kontami domu</a>
+                <a href="/cyclicOperation" class="w3-bar-item w3-button">Dodaj cykliczną operację</a>
             </div>
         </div>
         <form method="get" action="/updateCyclicOperations">
-            <button class="w3-button w3-hover-cyan w3-blue w3-left">Update cyclic Operations</button>
+            <button class="w3-button w3-hover-cyan w3-blue w3-left">Aktualizacja cyklicznych operacji</button>
         </form>
         <form method="get" action="/logout">
-            <button class="w3-button w3-blue w3-hover-red w3-right" type="submit">Sign out</button>
+            <button class="w3-button w3-blue w3-hover-red w3-right" type="submit">Wyloguj</button>
         </form>
     </div>
     <br>
     <div align="center">
         <div sec:authorize="isAuthenticated()">
-            <h2> Welcome <span th:text="${userInfo.getUsername()}">Username</span></h2>
+            <h1 style="font-size: 50px"> Witaj <span th:text="${userInfo.getUsername()}">Username</span></h1>
         </div>
     </div>
 
     <br>
     <br>
     <br>
-    <h1>My Web Page</h1>
-
-    <div id="piechart"></div>
-
-
+    <div style="text-align: center">
+        <span style="border: 1px solid #ccc; font-size: 20px; background-color: white; padding: 10px">Stan konta: <span th:text="${userInfo.getAccount().getCurrentAmount()}">Balance</span></span>
+    </div>
     <br>
+    <table class="columns" align="center">
+        <tr>
+            <td><div id="piechartIncome" style="border: 1px solid #ccc"></div></td>
+            <td><div id="piechartExpense" style="border: 1px solid #ccc"></div></td>
+        </tr>
+    </table>
+    <br>
+
     <div class="w3-container">
         <ul class="w3-ul w3-card-4 w3-white">
             <li class="w3-bar" th:each="operation : ${operationsList}">
                 <a th:href="@{/deleteOperation(operationId=${operation.getId()})}" class="w3-bar-item w3-button w3-white w3-xlarge w3-hover-red w3-right">×</a>
                 <div class="w3-bar-item">
                     <h3 th:text="${operation.getLabel()}">Label</h3>
-                    <p5>Category: </p5>
+                    <p5>Kategoria: </p5>
                     <p5 th:text="${operation.getCategory()}">Category</p5><br>
-                    <p5>Description: </p5>
+                    <p5>Opis: </p5>
                     <p6 th:text="${operation.getDescription()}">Description</p6><br><br>
-                    <p6>Creation date:</p6>
-                    <p6  style="padding-left: 100px">Next update date:</p6><br>
+                    <p6>Data utworzenia:</p6>
+                    <p6  style="padding-left: 100px">Data następnej aktualizacji:</p6><br>
                     <p6 th:text="${#calendars.format(operation.getCreationDate(),'dd-MM-yyyy HH:mm')}">Creation Date</p6>
                     <p6 th:text="${#calendars.format(operation.getNextUpdateDate(),'dd-MM-yyyy HH:mm')}" style="padding-left: 70px">Next Update Date</p6>
                 </div>

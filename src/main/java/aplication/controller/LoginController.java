@@ -1,6 +1,6 @@
-package pl.controller;
+package aplication.controller;
 
-import pl.service.LoginService;
+import aplication.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,7 +32,7 @@ public class LoginController {
     @PostMapping("registerNewHome")
     public String postRegister(@RequestParam("username") String username, @RequestParam("password") String password, @RequestParam("homeName") String homeName) {
         if(loginService.checkIfUserExist(username) == null && loginService.checkIfHomeExist(homeName) == null) {
-            loginService.saveNewAccount(username, password, homeName, "Admin");
+            loginService.addNewAdmin(username, password, homeName, "Administrator");
             return "login";
         }
         return "register";

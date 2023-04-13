@@ -1,4 +1,4 @@
-package pl.model;
+package aplication.model.classes;
 
 import javax.persistence.*;
 

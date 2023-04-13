@@ -1,7 +1,7 @@
-package pl.security;
+package aplication.security;
 
-import pl.model.Role;
-import pl.model.UserInfo;
+import aplication.model.classes.Role;
+import aplication.model.classes.UserInfo;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
